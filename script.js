@@ -12,6 +12,7 @@ window.onload = function() {
       });
     })(tabBtns[i]);
   }
+
   var faqBtns = document.querySelectorAll('.faq-question');
   for (var i = 0; i < faqBtns.length; i++) {
     (function(btn) {
@@ -24,4 +25,25 @@ window.onload = function() {
       });
     })(faqBtns[i]);
   }
+
+  if ('IntersectionObserver' in window) {
+    var obs = new IntersectionObserver(function(entries) {
+      for (var i = 0; i < entries.length; i++) {
+        if (entries[i].isIntersecting) {
+          entries[i].target.classList.add('visible');
+          obs.unobserve(entries[i].target);
+        }
+      }
+    }, {threshold: 0.1});
+    var reveals = document.querySelectorAll('.reveal');
+    for (var i = 0; i < reveals.length; i++) obs.observe(reveals[i]);
+  } else {
+    var reveals = document.querySelectorAll('.reveal');
+    for (var i = 0; i < reveals.length; i++) reveals[i].classList.add('visible');
+  }
+
+  window.addEventListener('scroll', function() {
+    var nav = document.querySelector('nav');
+    if (nav) nav.style.background = window.scrollY > 60 ? 'rgba(21,69,82,.98)' : 'rgba(21,69,82,.96)';
+  });
 };
